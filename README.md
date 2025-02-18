@@ -8,7 +8,7 @@ The implementation of MotionMatcher, a feature-level fine-tuning framework for m
 
 > Text-to-video (T2V) diffusion models have shown promising capabilities in synthesizing realistic videos from input text prompts. However, the input text description alone provides limited control over the precise objects movements and camera framing. In this work, we tackle the motion customization problem, where a reference video is provided as motion guidance. While most existing methods choose to fine-tune pre-trained diffusion models to reconstruct the frame differences of the reference video, we observe that such strategy suffer from content leakage from the reference video, and they cannot capture complex motion accurately. To address this issue, we propose MotionMatcher, a motion customization framework that fine-tunes the pre-trained T2V diffusion model at the feature level. Instead of using pixel-level objectives, MotionMatcher compares high-level, spatio-temporal motion features to fine-tune diffusion models, ensuring precise motion learning. For the sake of memory efficiency and accessibility, we utilize a pre-trained T2V diffusion model, which contains considerable prior knowledge about video motion, to compute these motion features. In our experiments, we demonstrate state-of-the-art motion customization performances, validating the design of our framework.
 
-<img src="resources/demo.png" alt="Method overview" style="zoom:25%;" />
+<img src="resources/demo.jpg" alt="Method overview" style="zoom:25%;" />
 
 ## 🔧 Setup
 
