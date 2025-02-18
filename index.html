@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="MotionMatcher is a feature-level fine-tuning framework for motion customization.">
+  <meta name="keywords" content="MotionMatcher">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MotionMatcher: Motion Customization of Text-to-Video Diffusion Models via Motion Feature Matching</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id="></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', '');
+    
+    window.onload = () => {
+      const webps = document.querySelectorAll('.webp');
+      webps.forEach(webp => {
+        webp.src += ''; // Reload to ensure sync after preload
+      });
+    };
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+</head>
+<body>
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+</nav>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title" style="font-size: 2.2rem;">MotionMatcher: Motion Customization of Text-to-Video Diffusion Models via Motion Feature Matching</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <span>Yen-Siang Wu</span><sup>1</sup>,</span>
+            <span class="author-block">
+              <span>Chi-Pin Huang</span><sup>1</sup>,</span>
+            <span class="author-block">
+              <span>Fu-En Yang</span><sup>2</sup>,
+            </span>
+            <span class="author-block">
+              <span>Yu-Chiang Frank Wang</span><sup>1,2</sup>,
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>National Taiwan University,</span>
+            <span class="author-block"><sup>2</sup>NVIDIA</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="TBD"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href="https://github.com/b09902097/motionmatcher"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body" align="center">
+      <div style="display: flex; justify-content: center; align-items: center;">
+        <img class="teaser-img" src="./static/videos/dog.webp" title="A dog is sitting in the forest." autoplay controls playsinline height="100%">
+        <span style="font-size: 240%; margin: 0.6em; line-height: 100%;" height="100%">🡪</span>
+        <img class="teaser-img" src="./static/videos/fox.webp" title="A fox is sitting in Times Square." autoplay controls playsinline height="100%">
+        <span style="margin: 1.2em; line-height: 100%;" height="100%"></span>
+        <img class="teaser-img" src="./static/videos/lion.webp" title="A lion is sitting in the snow." autoplay controls playsinline height="100%">
+      </div>
+      <h2 class="subtitle has-text-centered" style="font-size: 1.1rem; margin: 1em;">
+        <span class="dnerf">MotionMatcher</span> can customize pre-traind T2V diffusion models with a user-provided reference video (left). Once customized, the diffusion model is able to transfer the precise <i>motion</i> in the reference video to a variety of scenes (middle and right).
+      </h2>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding: 1.5rem 1.5rem;">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>Text-to-video (T2V) diffusion models have shown promising capabilities in synthesizing realistic videos from input text prompts. However, the input text description alone provides limited control over the precise objects movements and camera framing. In this work, we tackle the motion customization problem, where a reference video is provided as motion guidance. While most existing methods choose to fine-tune pre-trained diffusion models to reconstruct the frame differences of the reference video, we observe that such strategy suffer from content leakage from the reference video, and they cannot capture complex motion accurately. To address this issue, we propose MotionMatcher, a motion customization framework that fine-tunes the pre-trained T2V diffusion model at the feature level. Instead of using pixel-level objectives, MotionMatcher compares high-level, spatio-temporal motion features to fine-tune diffusion models, ensuring precise motion learning. For the sake of memory efficiency and accessibility, we utilize a pre-trained T2V diffusion model, which contains considerable prior knowledge about video motion, to compute these motion features. In our experiments, we demonstrate state-of-the-art motion customization performances, validating the design of our framework.</p>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+  </div>
+</section>
+
+
+<section class="section" style="padding: 1.5rem 1.5rem;">
+  <div class="container is-max-desktop">
+
+    <div class="columns is-centered">
+
+      <!-- Visual Effects. -->
+      <div class="column">
+        <div class="content">
+          <h2 class="title is-3">Method</h2>
+          <img class="summary-img" src="./static/images/diagram.jpg" style="padding: 0em 4em; border: 0px;">
+          <p>
+(a) We fine-tune the pre-trained T2V diffusion model (T2V-DM) using the <i>motion feature matching</i> objective. Unlike the standard <i>pixel-level</i> DDPM loss, we align the motion features of the predicted noisy video with those of the ground truth noisy video. To extract motion features from <i>noisy latent videos</i>, we use a pre-trained T2V-DM (frozen) as a feature extractor. (b) We leverage the cross-attention (CA) maps and temporal self-attention (TSA) maps in the pre-trained T2V diffusion model to extract motion cues. The final motion features are the combination of the CA maps and TSA maps.
+          </p>
+          <br>
+        </div>
+      </div>
+    </div>
+    <!--/ Matting. -->
+
+    <!-- Animation. -->
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Example results</h2>
+        <p style="color: red; font-size: 120%;">Please hover to view the captions.</p>
+        <br>
+
+        <!-- Interpolating. -->
+        <h3 class="title is-4">One-to-one results</h3>
+        
+        <div style="display: flex; justify-content: center; align-items: center; margin: 1.5em;">
+          <img class="demo-img" src="./static/videos/cat.webp" title="A cat is moving in the sunshine." autoplay controls playsinline height="100%">
+          <span style="font-size: 240%; margin: 0.3em; line-height: 100%;" height="100%">🡪</span>
+          <img class="demo-img" src="./static/videos/rott.webp" title="A Rottweiler is moving in the snow." autoplay controls playsinline height="100%">
+          <span style="margin: 1.5em; line-height: 100%;" height="100%"></span>
+          <img class="demo-img" src="./static/videos/bear.webp" title="A bear is walking on rocks." autoplay controls playsinline height="100%">
+          <span style="font-size: 240%; margin: 0.3em; line-height: 100%;" height="100%">🡪</span>
+          <img class="demo-img" src="./static/videos/arctic.webp" title="An arctic fox is walking on ice." autoplay controls playsinline height="100%">
+        </div>
+        
+        <div style="display: flex; justify-content: center; align-items: center; margin: 1.5em;">
+          <img class="demo-img" src="./static/videos/gold_fish.webp" title="Gold fish are swimming in the fish tank." autoplay controls playsinline height="100%">
+          <span style="font-size: 240%; margin: 0.3em; line-height: 100%;" height="100%">🡪</span>
+          <img class="demo-img" src="./static/videos/clownfish.webp" title="Clowfish are swimming in the sea." autoplay controls playsinline height="100%">
+          <span style="margin: 1.5em; line-height: 100%;" height="100%"></span>
+          <img class="demo-img" src="./static/videos/white_house.webp" title="Close up shot of the White House with watermark." autoplay controls playsinline height="100%">
+          <span style="font-size: 240%; margin: 0.3em; line-height: 100%;" height="100%">🡪</span>
+          <img class="demo-img" src="./static/videos/arc.webp" title="Close up shot of the Arc de Triomphe." autoplay controls playsinline height="100%">
+        </div>
+        
+        <div style="display: flex; justify-content: center; align-items: center; margin: 1.5em;">
+          <img class="demo-img" src="./static/videos/car_turn.webp" title="A car is running on the road." autoplay controls playsinline height="100%">
+          <span style="font-size: 240%; margin: 0.3em; line-height: 100%;" height="100%">🡪</span>
+          <img class="demo-img" src="./static/videos/cheetah.webp" title="A cheetah is running across the savannah." autoplay controls playsinline height="100%">
+          <span style="margin: 1.5em; line-height: 100%;" height="100%"></span>
+          <img class="demo-img" src="./static/videos/ski.webp" title="A person is skiing." autoplay controls playsinline height="100%">
+          <span style="font-size: 240%; margin: 0.3em; line-height: 100%;" height="100%">🡪</span>
+          <img class="demo-img" src="./static/videos/shark.webp" title="A shark is swimming." autoplay controls playsinline height="100%">
+        </div>
+        <br>
+        
+        <h3 class="title is-4">One-to-many results</h3>
+        
+        <div style="display: flex; justify-content: center; align-items: center; margin: 1.5em;">
+          <img class="demo-img" src="./static/videos/bus.webp" title="A bus is running on the road." autoplay controls playsinline height="100%">
+          <span style="font-size: 240%; margin: 0.6em; line-height: 100%;" height="100%">🡪</span>
+          <img class="demo-img" src="./static/videos/tiger.webp" title="A tiger is walking in the forest." autoplay controls playsinline height="100%">
+          <span style="margin: 1.2em; line-height: 100%;" height="100%"></span>
+          <img class="demo-img" src="./static/videos/ship.webp" title="A ship is sailing on the sea." autoplay controls playsinline height="100%">
+          <span style="margin: 1.2em; line-height: 100%;" height="100%"></span>
+          <img class="demo-img" src="./static/videos/bus_shark.webp" title="A shark is swimming." autoplay controls playsinline height="100%">
+        </div>
+        
+        <div style="display: flex; justify-content: center; align-items: center; margin: 1.5em;">
+          <img class="demo-img" src="./static/videos/eiffel.webp" title="Drone flyover of the Eiffel Tower in front of the city, sunset." autoplay controls playsinline height="100%">
+          <span style="font-size: 240%; margin: 0.6em; line-height: 100%;" height="100%">🡪</span>
+          <img class="demo-img" src="./static/videos/everest.webp" title="Drone flyover of the Mount Everest." autoplay controls playsinline height="100%">
+          <span style="margin: 1.2em; line-height: 100%;" height="100%"></span>
+          <img class="demo-img" src="./static/videos/eiffel_white_house.webp" title="Drone flyover of the White House." autoplay controls playsinline height="100%">
+          <span style="margin: 1.2em; line-height: 100%;" height="100%"></span>
+          <img class="demo-img" src="./static/videos/eiffel_arc.webp" title="Drone flyover of the Arc de Triomphe, sunset." autoplay controls playsinline height="100%">
+        </div>
+        <br>
+        <!--/ Comparisons. -->
+
+        <h3 class="title is-4">Comparisons</h3>
+        <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; margin-top: -0.8rem; margin-bottom: 0.6rem;">
+          <video id="comparisons" autoplay muted loop playsinline width="90%">
+            <source src="./static/videos/comparisons1.mp4"
+                    type="video/mp4">
+          </video>
+          <video id="comparisons" autoplay muted loop playsinline width="90%">
+            <source src="./static/videos/comparisons2.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <br>
+        <br>
+        
+        <h3 class="title is-4">More samples based on CogVideoX</h3>
+        <div style="display: flex; justify-content: center; align-items: center; margin: 1.5em;">
+          <img class="cogvideo-img" src="./static/videos/bear.webp" title="A bear is walking on rocks." autoplay loop controls playsinline height="100%">
+          <span style="font-size: 160%; margin: 0.2em; line-height: 100%;" height="100%">🡪</span>
+          <img class="cogvideo-img" src="./static/videos/cogvideo_arctic.webp" title="An arctic fox is walking on ice." autoplay loop controls playsinline height="100%">
+          <span style="margin: 1.0em; line-height: 100%;" height="100%"></span>
+          <img class="cogvideo-img" src="./static/videos/blackswan.webp" title="A blackswan is swaimming in the river." autoplay loop controls playsinline height="100%">
+          <span style="font-size: 160%; margin: 0.2em; line-height: 100%;" height="100%">🡪</span>
+          <img class="cogvideo-img" src="./static/videos/cogvideo_ship.webp" title="A ship is sailing on the sea." autoplay loop controls playsinline height="100%">
+          <span style="margin: 1.0em; line-height: 100%;" height="100%"></span>
+          <img class="cogvideo-img" src="./static/videos/moon.webp" title="Full moon spin with watermark." autoplay loop controls playsinline height="100%">
+          <span style="font-size: 160%; margin: 0.2em; line-height: 100%;" height="100%">🡪</span>
+          <img class="cogvideo-img" src="./static/videos/cogvideo_basketball.webp" title="Basketball spin." autoplay loop controls playsinline height="100%">
+        </div>
+        <br>
+        <br>
+        
+        <h2 class="title is-3">Retrieval results</h2>
+        <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 0.5em;">
+          <video id="retrieval" autoplay muted loop playsinline width="80%">
+            <source src="./static/videos/retrieval.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <br>
+        <p>The video with the most similar <i>motion features</i> shares the same motion despite having different appearances. In contrast, the video that is most similar in latent space has a nearly identical appearance but opposite motion, while the video with the most similar residual frames contain unrelated motion. These results verify that our motion features capture rich motion information, rather than irrelevant details about visual appearance.</p>
+      </div>
+    </div>
+    <!--/ Animation. -->
+  </div>
+</section>
+
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>TBD</code></pre>
+  </div>
+</section>
+
+
+<footer class="footer" style="padding: 1.5rem 1.5rem 3rem; text-align: center">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is based on <a href="https://nerfies.github.io/">Nerfies's project page</a>. We thank the authors for sharing their code.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
